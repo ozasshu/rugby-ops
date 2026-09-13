@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "普及育成 業務管理システム"
+description = "日本ラグビーフットボール協会の普及育成部門向けに、タスク・週次報告・承認・ナレッジ・業務量と月次登録者分析を一元化する操作可能なモックアプリ。"
+version = "1.0.0"
+id = "artifacts/rugby-ops"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23045
+
+[services.development]
+run = "pnpm --filter @workspace/rugby-ops run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rugby-ops", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/rugby-ops/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23045"
+BASE_PATH = "/"
